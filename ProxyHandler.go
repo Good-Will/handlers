@@ -40,7 +40,9 @@ func NewProxyHandler(config map[string]string) http.HandlerFunc {
 			r.URL.Scheme = targetURL.Scheme
 			r.URL.Host = targetURL.Host
 			r.URL.Path = targetURL.Path + r.URL.Path[len(pathBase):len(r.URL.Path)]
-			r.URL.RawQuery = strings.Join([]string{targetURL.RawQuery, r.URL.RawQuery}, "&")
+			if len(targetURL.RawQuery) > 0 {
+				r.URL.RawQuery = strings.Join([]string{targetURL.RawQuery, r.URL.RawQuery}, "&")
+			}
 
 			r.Host = r.URL.Host
 			r.RequestURI = r.URL.RequestURI()
